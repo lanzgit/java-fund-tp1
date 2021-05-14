@@ -1,24 +1,28 @@
 package model;
-import java.util.Iterator;
 import java.util.Scanner;
 
 public class Boletim {
 
-	private static String[] nomes;
+	private static String[] nome;
 	private static float[] av1;
 	private static float[] av2;
-	private static final int QTDE = 2;
+	private static float[] media;
+	private static String[] situacao;
+	private static final int QTDE = 100;
 	
 	public static void main(String[] args) {
-		
-		Scanner in = new Scanner(System.in);
-		nomes = new String[QTDE];
-		avi1 = new float[QTDE];
-		avi2 = new float[QTDE];
-
+		menu();
 	}
 	
 	private static void menu() {
+
+		Scanner in = new Scanner(System.in);
+		nome = new String[QTDE];
+		av1 = new float[QTDE];
+		av2 = new float[QTDE];
+		media = new float[QTDE];
+		situacao = new String[QTDE];
+
 		String op = null;
 		int index = 0;
 		do {
@@ -34,31 +38,84 @@ public class Boletim {
 			switch (op) {
 			case "1":
 				System.out.print("Entre com o nome do aluno: ");
-				nomes[index] = in.next();
+				nome[index] = in.next();
 				System.out.print("Entre com a primeira nota: ");
-				av1[index] = in.next();
+				av1[index] = in.nextFloat();
 				System.out.print("Entre com a segunda nota: ");
-				av2[index] = in.next();
-				
+				av2[index] = in.nextFloat();
+
+				media[index] = calcularMedia(av1[index], av2[index]);
+				situacao[index] = situacaoDoAluno(media[index]);
 				index++;
 				break;
 
 			case "2":
-				break;
-			case "3":
-				for (int i = 0; i < QTDE; i++) {
-					System.out.println("%d")
+				System.out.print("Entre com o numero do aluno: ");
+				int pos = in.nextInt();
+				if(nome[pos] != null) {
+					boletimDoAluno(index);
+					break;
 				}
+				System.out.println("Aluno nao encontrado!");
+				break;
+
+			case "3":
+				notasDaTurma();
 				break;
 			case "4":
+				System.out.println("saindo...");
 				break;
 			default:
+				System.out.println("Opcao Invalida...");
 				break;
 			}
 
 
 		} while(!op.equals("4"));
 		
+	}
+	
+	private static void notasDaTurma() {
+		for (int i = 0; i < QTDE; i++) {
+			if(nome[i] != null) {
+				System.out.printf("%d - %s - Nota 1:%.2f - Nota 2:%.2f - Media:%.2f - Situacao: %s\n",
+				i + 1,
+				nome[i],
+				av1[i],
+				av2[i],
+				media[i],
+				situacao[i]
+				);
+			}
+		}
+	}
+	
+	private static void boletimDoAluno(int pos) {
+		System.out.printf("%d - %s - Nota 1:%.2f - Nota 2:%.2f - Media:%.2f - Situacao: %s\n",
+				pos + 1,
+				nome[pos],
+				av1[pos],
+				av2[pos],
+				media[pos],
+				situacao[pos]
+				);
+
+	}
+	
+	private static float calcularMedia(float nota1, float nota2) {
+		return (nota1 + nota2) / 2;
+	}
+
+	private static String situacaoDoAluno(float media) {
+		String resultado;
+		if (media < 4) {
+			resultado = "Reprovado";
+		} else if(media >= 4 && media < 7) {
+			resultado = "Prova Final";
+		} else {
+			resultado = "Aprovado";
+		}
+		return resultado;
 	}
 
 }
