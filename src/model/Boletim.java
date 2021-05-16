@@ -46,6 +46,7 @@ public class Boletim {
 
 				media[index] = calcularMedia(av1[index], av2[index]);
 				situacao[index] = situacaoDoAluno(media[index]);
+				System.out.println("O aluno " + nome[index] + " foi registrado com o codigo: " + index);
 				index++;
 				break;
 
@@ -53,7 +54,7 @@ public class Boletim {
 				System.out.print("Entre com o numero do aluno: ");
 				int pos = in.nextInt();
 				if(nome[pos] != null) {
-					boletimDoAluno(index);
+					boletimDoAluno(pos);
 					break;
 				}
 				System.out.println("Aluno nao encontrado!");
@@ -62,9 +63,11 @@ public class Boletim {
 			case "3":
 				notasDaTurma();
 				break;
+
 			case "4":
 				System.out.println("saindo...");
 				break;
+
 			default:
 				System.out.println("Opcao Invalida...");
 				break;
@@ -79,7 +82,7 @@ public class Boletim {
 		for (int i = 0; i < QTDE; i++) {
 			if(nome[i] != null) {
 				System.out.printf("%d - %s - Nota 1:%.2f - Nota 2:%.2f - Media:%.2f - Situacao: %s\n",
-				i + 1,
+				i,
 				nome[i],
 				av1[i],
 				av2[i],
@@ -92,14 +95,13 @@ public class Boletim {
 	
 	private static void boletimDoAluno(int pos) {
 		System.out.printf("%d - %s - Nota 1:%.2f - Nota 2:%.2f - Media:%.2f - Situacao: %s\n",
-				pos + 1,
+				pos,
 				nome[pos],
 				av1[pos],
 				av2[pos],
 				media[pos],
 				situacao[pos]
 				);
-
 	}
 	
 	private static float calcularMedia(float nota1, float nota2) {
@@ -115,6 +117,7 @@ public class Boletim {
 		} else {
 			resultado = "Aprovado";
 		}
+
 		return resultado;
 	}
 
